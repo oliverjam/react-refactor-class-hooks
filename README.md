@@ -182,7 +182,7 @@ console.log(a, b); // 1 2
 
 1. Clone the project and run `npm i`
 1. `npm t` to run the test watcher
-1. Rewrite the class components in `src/components` to use hooks and ES Modules
+1. Rewrite `src/Counter.js` to use hooks and ES Modules
+1. Rewrite `src/Keyboard.js` to use hooks and ES Modules
+1. Rewrite `src/Pokemon.js` to use hooks and ES Modules
 1. Keep all the tests passing!
-
-(You may need to change `index.js` too!)
