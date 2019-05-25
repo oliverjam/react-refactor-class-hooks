@@ -101,7 +101,7 @@ class Pokemon extends React.Component {
   componentDidMount() {
     fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
       .then(res => res.json())
-      .then(data => this.setState(data));
+      .then(data => this.setState({ data }));
   }
   render() {
     if (!data) return <div>Loading...</div>;
