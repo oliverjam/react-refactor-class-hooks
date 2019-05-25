@@ -1,5 +1,5 @@
 const React = require("react");
-const { getPokemon } = require("../utils");
+const { getPokemon } = require("./utils");
 class Pokemon extends React.Component {
   state = {
     loading: true,
