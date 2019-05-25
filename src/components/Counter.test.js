@@ -1,6 +1,6 @@
 const React = require("react");
 const { render, fireEvent, cleanup } = require("react-testing-library");
-const { Counter } = require("./");
+const Counter = require("./Counter");
 
 afterEach(cleanup);
 
