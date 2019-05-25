@@ -20,8 +20,8 @@ afterEach(() => {
   window.fetch = originalFetch;
 });
 
-describe("Counter component", () => {
-  test("Buttons increment and decrement count", async () => {
+describe("Pokemon component", () => {
+  test("Fetches pokemon data and renders it", async () => {
     const { getByText, findByText, findByAltText } = render(<Pokemon />);
     getByText(/Loading.../i);
     expect(window.fetch).toHaveBeenCalledTimes(1);
