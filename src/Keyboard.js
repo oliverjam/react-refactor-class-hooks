@@ -11,6 +11,8 @@ class Keyboard extends React.Component {
     window.addEventListener("keydown", this.handleKeyDown);
   }
   componentWillUnmount() {
+    // stops the event listener continuing to fire
+    // when the component has left the page
     window.removeEventListener("keydown", this.handleKeyDown);
   }
   render() {
