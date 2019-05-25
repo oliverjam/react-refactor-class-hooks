@@ -2,30 +2,29 @@ const React = require("react");
 const { getPokemon } = require("./utils");
 class Pokemon extends React.Component {
   state = {
-    loading: true,
     data: null,
   };
   componentDidMount() {
     const { name } = this.props;
-    getPokemon(name).then(data => this.setState({ data, loading: false }));
+    getPokemon(name).then(data => this.setState({ data }));
   }
   componentDidUpdate(prevProps) {
     const { name } = this.props;
-    // re-fetch new pokemon if name has changed
+    // re-fetch new pokemon if name prop has changed
     if (prevProps.name !== name) {
       this.setState({ loading: true });
-      getPokemon(name).then(data => this.setState({ data, loading: false }));
+      getPokemon(name).then(data => this.setState({ data }));
     }
   }
   render() {
-    const { loading, data } = this.state;
-    if (loading) return <div>Loading...</div>;
+    // render loading until the fetch promise resolves
+    if (!this.state.data) return <div>Loading...</div>;
     return (
       <div>
-        <h2>{this.props.name}</h2>
+        <h2>{this.state.data.name}</h2>
         <img
-          src={data.sprites.front_default}
-          alt={`${data.name} default sprite`}
+          src={this.state.data.sprites.front_default}
+          alt={`${this.state.data.name} default sprite`}
         />
       </div>
     );

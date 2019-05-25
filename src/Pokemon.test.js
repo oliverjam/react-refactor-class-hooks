@@ -34,7 +34,6 @@ describe("Pokemon component", () => {
     window.fetch = jest.fn(fetchMock(newName));
     rerender(<Pokemon name={newName} />);
 
-    getByText(/Loading.../i);
     expect(window.fetch).toHaveBeenCalledTimes(1);
 
     await findByText(newName);
