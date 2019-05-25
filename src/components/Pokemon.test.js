@@ -11,7 +11,7 @@ beforeEach(() => {
     },
   };
   window.fetch = jest.fn(() => {
-    return Promise.resolve({ json: () => Promise.resolve(mockPoke) });
+    return Promise.resolve({ ok: true, json: () => Promise.resolve(mockPoke) });
   });
 });
 

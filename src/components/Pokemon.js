@@ -1,14 +1,12 @@
 const React = require("react");
-
+const { getPokemon } = require("../utils");
 class Pokemon extends React.Component {
   state = {
     loading: true,
     data: null,
   };
   componentDidMount() {
-    fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
-      .then(res => res.json())
-      .then(data => this.setState({ data, loading: false }));
+    getPokemon("pikachu").then(data => this.setState({ data, loading: false }));
   }
   render() {
     const { loading, data } = this.state;
