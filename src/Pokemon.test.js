@@ -1,6 +1,6 @@
-const React = require("react");
-const { render, cleanup } = require("react-testing-library");
-const Pokemon = require("./Pokemon");
+import React from "react";
+import { render, cleanup } from "react-testing-library";
+import Pokemon from "./Pokemon";
 
 const fetchMock = name => () => {
   return Promise.resolve({

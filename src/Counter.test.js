@@ -1,6 +1,6 @@
-const React = require("react");
-const { render, fireEvent, cleanup } = require("react-testing-library");
-const Counter = require("./Counter");
+import React from "react";
+import { render, fireEvent, cleanup } from "react-testing-library";
+import Counter from "./Counter";
 
 afterEach(cleanup);
 

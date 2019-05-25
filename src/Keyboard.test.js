@@ -1,6 +1,6 @@
-const React = require("react");
-const { render, fireEvent, cleanup } = require("react-testing-library");
-const Keyboard = require("./Keyboard");
+import React from "react";
+import { render, fireEvent, cleanup } from "react-testing-library";
+import Keyboard from "./Keyboard";
 
 afterEach(cleanup);
 
