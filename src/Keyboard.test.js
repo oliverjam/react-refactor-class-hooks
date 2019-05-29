@@ -1,12 +1,14 @@
 import React from "react";
 import { render, fireEvent, cleanup } from "react-testing-library";
-import Keyboard from "./Keyboard";
+import { Keyboard } from "./Keyboard";
 
 afterEach(cleanup);
 
+const spy = jest.spyOn(global.console, "error");
+
 describe("Keyboard component", () => {
-  test("Key strings are rendered", () => {
-    const { getByText, queryByText } = render(<Keyboard />);
+  test("Key strings are rendered and no console.error", () => {
+    const { getByText } = render(<Keyboard />);
     fireEvent.keyDown(window, { key: "ArrowUp" });
     getByText(/arrowup/i);
     fireEvent.keyDown(window, { key: "Enter" });
@@ -14,6 +16,6 @@ describe("Keyboard component", () => {
 
     cleanup(); // remove component from the DOM
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(queryByText(/arrowright/i)).toBeFalsy(); // shouldn't be there since event listener is removed
+    expect(spy).not.toHaveBeenCalled();
   });
 });
