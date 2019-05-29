@@ -2,7 +2,7 @@ const React = require("react");
 const { getPokemon } = require("./utils");
 class Pokemon extends React.Component {
   state = {
-    data: null,
+    data: null
   };
   componentDidMount() {
     const { name } = this.props;
@@ -12,7 +12,6 @@ class Pokemon extends React.Component {
     const { name } = this.props;
     // re-fetch new pokemon if name prop has changed
     if (prevProps.name !== name) {
-      this.setState({ loading: true });
       getPokemon(name).then(data => this.setState({ data }));
     }
   }
