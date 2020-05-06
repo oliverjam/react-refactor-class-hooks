@@ -1,10 +1,10 @@
-const React = require("react");
+import React from "react";
 
 class Keyboard extends React.Component {
   state = {
     key: "",
   };
-  handleKeyDown = event => {
+  handleKeyDown = (event) => {
     this.setState({ key: event.key });
   };
   componentDidMount() {
@@ -20,4 +20,4 @@ class Keyboard extends React.Component {
   }
 }
 
-module.exports = Keyboard;
+export default Keyboard;

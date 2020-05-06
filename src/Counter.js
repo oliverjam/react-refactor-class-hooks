@@ -1,15 +1,15 @@
-const React = require("react");
+import React from "react";
 
 class Counter extends React.Component {
   state = {
     count: 0,
   };
   decrement = () =>
-    this.setState(oldState => {
+    this.setState((oldState) => {
       return { count: oldState.count - 1 };
     });
   increment = () =>
-    this.setState(oldState => {
+    this.setState((oldState) => {
       return { count: oldState.count + 1 };
     });
   render() {
@@ -27,4 +27,4 @@ class Counter extends React.Component {
   }
 }
 
-module.exports = Counter;
+export default Counter;

@@ -1,18 +1,18 @@
-const React = require("react");
-const { getPokemon } = require("./utils");
+import React from "react";
+import { getPokemon } from "./utils";
 class Pokemon extends React.Component {
   state = {
-    data: null
+    data: null,
   };
   componentDidMount() {
     const { name } = this.props;
-    getPokemon(name).then(data => this.setState({ data }));
+    getPokemon(name).then((data) => this.setState({ data }));
   }
   componentDidUpdate(prevProps) {
     const { name } = this.props;
     // re-fetch new pokemon if name prop has changed
     if (prevProps.name !== name) {
-      getPokemon(name).then(data => this.setState({ data }));
+      getPokemon(name).then((data) => this.setState({ data }));
     }
   }
   render() {
@@ -30,4 +30,4 @@ class Pokemon extends React.Component {
   }
 }
 
-module.exports = Pokemon;
+export default Pokemon;

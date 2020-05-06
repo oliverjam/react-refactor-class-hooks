@@ -76,7 +76,7 @@ class Counter extends React.Component {
     count: 0,
   };
   increment = () =>
-    this.setState(oldState => {
+    this.setState((oldState) => {
       return { count: oldState.count + 1 };
     });
   render() {
@@ -100,8 +100,8 @@ class Pokemon extends React.Component {
   };
   componentDidMount() {
     fetch("https://pokeapi.co/api/v2/pokemon/pikachu")
-      .then(res => res.json())
-      .then(data => this.setState({ data }));
+      .then((res) => res.json())
+      .then((data) => this.setState({ data }));
   }
   render() {
     if (!data) return <div>Loading...</div>;
@@ -112,77 +112,11 @@ class Pokemon extends React.Component {
 
 To run some code when your component updates (i.e. is passed new props or `setState` is called) you can use `componentDidUpdate()`. To clean up after your component (i.e. cancelling timers or removing global event listeners) you can use `componentDidUnmount()`. There are [quite a lot of these](https://reactjs.org/docs/react-component.html#the-component-lifecycle) and you probably won't need them all.
 
-## Modules
-
-ES Modules are similar to Node's `require` syntax, but are a standardised part of the JS language.
-
-The [newest browsers](https://caniuse.com/#search=modules) now have support, but generally we need to use a tool called a bundler to parse all our imports and "bundle" them into a single file that all browsers will understand.
-
-### Exports
-
-Files can have two types of exports: default and named. Generally you use default exports if there's only one thing in a file that needs to be accessible outside of it. You'd use named exports to export multiple things (e.g. from a collection of utility functions). This is similar to how you might do `module.exports = a` for a single Node export, or `module.exports = { a, b }` to export an object with multiple properties.
-
-This is how you default export something:
-
-```js
-const a = 1;
-export default a;
-```
-
-And this is how you named export something:
-
-```js
-const a = 1;
-export { a };
-```
-
-You can only default export a single thing, but you can have as many named exports as you like:
-
-```js
-const a = 1;
-const b = 2;
-export { a, b };
-```
-
-You'll also see this briefer version of named exports:
-
-```js
-export const a = 1;
-export const b = 2;
-```
-
-### Imports
-
-There are also two kinds of imports: default and named. This is how you import something that was default-exported:
-
-```js
-import a from "./a";
-console.log(a); // 1;
-```
-
-This is how you import named-exports:
-
-```js
-import { a } from "./a";
-console.log(a); // 1;
-```
-
-You can import as many named-exports as you like on the same line:
-
-```js
-import { a, b } from "./a";
-console.log(a, b); // 1 2
-```
-
-**Important**: when you import a default-export you can call it whatever you want. You're effectively creating a new variable and assigning the default-export to it. In contrast named-exports have to imported with the correct name—otherwise JS would have no idea which export you wanted.
-
-**Also important**: unlike Node's `require` ES Modules are not dynamic. This means you cannot put them inside your code and import things conditionally. You also cannot use a variable in an import path.
-
 ## Exercise
 
 1. Clone the project and run `npm i`
 1. `npm t` to run the test watcher
-1. Rewrite `src/Counter.js` to use hooks and ES Modules
-1. Rewrite `src/Keyboard.js` to use hooks and ES Modules
-1. Rewrite `src/Pokemon.js` to use hooks and ES Modules
+1. Rewrite `src/Counter.js` to use hooks instead of classes
+1. Rewrite `src/Keyboard.js` to use hooks instead of classes
+1. Rewrite `src/Pokemon.js` to use hooks instead of classes
 1. Keep all the tests passing!
