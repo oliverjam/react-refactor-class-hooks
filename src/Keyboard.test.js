@@ -1,39 +1,53 @@
 import React from "react";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import Keyboard from "./Keyboard";
 
-afterEach(cleanup);
-
 describe("Keyboard component", () => {
-  test("Key strings are rendered", () => {
-    const { getByText } = render(<Keyboard />);
-    fireEvent.keyDown(window, { key: "ArrowUp" });
-    getByText(/arrowup/i);
-    fireEvent.keyDown(window, { key: "Enter" });
-    getByText(/enter/i);
-  });
-  test("Event listener should be removed when component unmounts", () => {
-    global.console.error = jest.fn(() => {});
+  test("The previously pressed key string is rendered", () => {
     render(<Keyboard />);
-    cleanup(); // remove component from the DOM
+
+    fireEvent.keyDown(window, { key: "ArrowUp" });
+    screen.getByText(/arrowup/i);
+
+    fireEvent.keyDown(window, { key: "Enter" });
+    screen.getByText(/enter/i);
+  });
+
+  test("Event listener should be removed when component unmounts", () => {
+    // mock console.error so we can check if an error happened
+    global.console.error = jest.fn(() => {});
+
+    // render component then immediately remove from DOM
+    const { unmount } = render(<Keyboard />);
+    unmount();
+
+    // press key and check there was no error
+    // this proves the component correctly cleaned up its event listener
     fireEvent.keyDown(window, { key: "ArrowRight" });
     expect(global.console.error).not.toHaveBeenCalled();
   });
-  test("KeyDown event listener only runs once", () => {
+
+  test("Only adds one keydown event listener", () => {
+    // mock addEventListener so we can count how many times its called
     const actualAddEventListener = global.addEventListener;
-    let keydowns = 0;
+    let keydownListeners = 0;
     global.addEventListener = jest.fn().mockImplementation((event, cb) => {
-      if (event === "keydown") keydowns += 1; // keep track of how many keydowns have happened
+      if (event === "keydown") keydownListeners += 1; // keep track of how many keydownListeners have happened
       actualAddEventListener(event, cb); // run the real addEventListener after
     });
 
-    const { getByText } = render(<Keyboard />);
-    fireEvent.keyDown(window, { key: "ArrowUp" });
-    getByText(/arrowup/i);
-    fireEvent.keyDown(window, { key: "Enter" });
-    getByText(/enter/i);
-    expect(keydowns).toBe(1);
+    render(<Keyboard />);
 
+    fireEvent.keyDown(window, { key: "ArrowUp" });
+    screen.getByText(/arrowup/i);
+
+    fireEvent.keyDown(window, { key: "Enter" });
+    screen.getByText(/enter/i);
+
+    // proves component only ran window.addEventListener once
+    expect(keydownListeners).toBe(1);
+
+    // put addEventListener back to normal
     global.addEventListener = actualAddEventListener;
   });
 });

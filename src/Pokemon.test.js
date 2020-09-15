@@ -1,65 +1,74 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Pokemon from "./Pokemon";
 
-const mockResponse = name => {
-  return Promise.resolve({
+function mockResponse(name) {
+  return {
     ok: true,
     json: () =>
       Promise.resolve({
         name,
         sprites: { front_default: "https://fake.com" },
       }),
-  });
-};
-
-afterEach(cleanup);
+  };
+}
 
 describe("Pokemon component", () => {
   test("Fetches pokemon data and renders it", async () => {
     const name = "charizard";
-    window.fetch = jest.fn().mockReturnValueOnce(mockResponse(name));
+    window.fetch = jest.fn().mockResolvedValueOnce(mockResponse(name));
 
-    const { getByText, findByText, findByAltText } = render(
-      <Pokemon name={name} />
-    );
+    render(<Pokemon name={name} />);
 
-    getByText(/Loading.../i);
+    // should show loading straight away
+    screen.getByText(/Loading.../i);
+    // should immediately start fetching
     expect(window.fetch).toHaveBeenCalledTimes(1);
 
-    await findByText(name);
-    await findByAltText(`${name} default sprite`);
+    // should eventually load the pokemon's name/image
+    await screen.findByText(name);
+    await screen.findByAltText(`${name} default sprite`);
   });
+
   test("Refetches pokemon data when name prop changes", async () => {
-    window.fetch = jest.fn();
+    window.fetch = jest
+      .fn()
+      // first fetch returns Charizard
+      .mockResolvedValueOnce(mockResponse("charizard"))
+      // second fetch returns Pikachu
+      .mockResolvedValueOnce(mockResponse("pikachu"));
 
-    const name = "charizard";
-    window.fetch.mockReturnValueOnce(mockResponse(name));
-    const { findByText, findByAltText, rerender } = render(
-      <Pokemon name={name} />
-    );
-    await findByText(name);
+    const { rerender } = render(<Pokemon name="charizard" />);
 
-    const newName = "pikachu";
-    window.fetch.mockReturnValueOnce(mockResponse(newName));
-    rerender(<Pokemon name={newName} />);
+    // should eventually load Charizard
+    await screen.findByText("charizard");
 
-    await findByText(newName);
-    await findByAltText(`${newName} default sprite`);
+    // re-render component with new name prop
+    rerender(<Pokemon name="pikachu" />);
+
+    // new pokemon (pikachu) should be fetched and rendered
+    await screen.findByText("pikachu");
+    await screen.findByAltText(`pikachu default sprite`);
 
     expect(window.fetch).toHaveBeenCalledTimes(2);
   });
+
   test("Does not refetch data if unrelated prop changes", async () => {
     const name = "charizard";
-    window.fetch = jest.fn().mockReturnValue(mockResponse(name));
-    const { findByText, findByAltText, rerender } = render(
-      <Pokemon name={name} />
-    );
+    window.fetch = jest.fn().mockResolvedValueOnce(mockResponse(name));
 
-    rerender(<Pokemon name={name} />);
+    const { rerender } = render(<Pokemon name={name} />);
 
-    await findByText(name);
-    await findByAltText(`${name} default sprite`);
+    // Charizard should eventually be rendered
+    await screen.findByText(name);
+
+    // re-render with the name prop unchanged
+    rerender(<Pokemon name={name} blah="whatever" />);
+
+    // Charizard should still be there after re-render
+    screen.getByText(name);
+
+    // fetch should only be called once even though the comp rendered twice
     expect(window.fetch).toHaveBeenCalledTimes(1);
   });
 });
