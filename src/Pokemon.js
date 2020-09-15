@@ -1,5 +1,6 @@
 import React from "react";
 import { getPokemon } from "./utils";
+
 class Pokemon extends React.Component {
   state = {
     data: null,
