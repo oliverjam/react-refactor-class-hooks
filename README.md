@@ -6,7 +6,7 @@ Hooks (e.g. `useState`, `useEffect` and more) are a relatively new React feature
 
 Classes were added to JS with ES6. They're a special syntax for creating reusable objects with methods and properties.
 
-They can also "extend" other classes to inherit its properties.
+They can also "extend" other classes to inherit their properties.
 
 ```js
 class Dog {
