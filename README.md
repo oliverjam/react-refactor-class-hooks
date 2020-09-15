@@ -20,7 +20,8 @@ class Fido extends Dog {
 }
 
 const myFido = new Fido();
-myFido.sayName(); // "Fidp"
+myFido.sayName(); // "Fido"
+// Dote the Fido class didn't define a sayName method. It was inherited from Dog
 ```
 
 Don't worry too much about classes—they're rarely used in React anymore, and even when they were hardly any of their features were used.
