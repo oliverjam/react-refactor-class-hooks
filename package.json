@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest src/ --watch",
-    "test:solution": "jest solution/ --watch",
+    "test": "jest --watch",
     "lint": "eslint ."
   },
   "author": "",
